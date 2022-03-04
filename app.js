@@ -2,9 +2,11 @@
 //npm i express
 //npm i dotenv
 //npm i morgan
+//npm i mongoose
 
 const express = require("express");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
 const app = express(); //creates a web server
 
 require("dotenv/config"); //imports package to get access to .env file
@@ -29,6 +31,15 @@ app.post(`${api}/products`, (req, res) => {
   console.log(newProduct);
   res.send(newProduct);
 });
+
+mongoose
+  .connect(process.env.CONNECTION_STRING)
+  .then(() => {
+    console.log("Database connection is ready...");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 //Listens to port 3000 and on successful creation of app server it gives a callback
 app.listen(3000, () => {
